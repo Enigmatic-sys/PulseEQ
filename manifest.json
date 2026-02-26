@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "PulseEQ Pro",
+  "version": "2.2",
+  "permissions": ["scripting", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

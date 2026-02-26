@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --accent: #007AFF;
+      --accent-gradient: linear-gradient(180deg, #58A6FF 0%, #007AFF 100%);
+      --glass: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --text: #ffffff;
+      --ios-red: #FF3B30;
+      color-scheme: dark; 
+    }
+
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+    body { 
+      width: 790px; margin: 0; padding: 24px; 
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", sans-serif;
+      background: #000;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .bg-mesh {
+      position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 30%, #1e1e1e 0%, #000 100%),
+                  radial-gradient(circle at 70% 70%, #002b5e 0%, #000 70%);
+      z-index: -1;
+    }
+
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    header h1 { font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -1px; background: linear-gradient(#fff, #999); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* The New Red Support Button */
+    .patreon-pill {
+      background: var(--ios-red); border: 1px solid #ff453a;
+      padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); color: white;
+      text-transform: uppercase; box-shadow: 0 0 10px rgba(255, 59, 48, 0.4);
+    }
+    .patreon-pill:hover { 
+      background: #ff453a; 
+      box-shadow: 0 0 20px rgba(255, 59, 48, 0.8); 
+      transform: scale(1.05); 
+    }
+
+    .control-panel {
+      background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px; padding: 16px; display: grid; grid-template-columns: 1fr 1.2fr 1.5fr; gap: 16px;
+      margin-bottom: 20px; backdrop-filter: blur(20px);
+    }
+
+    .group-label { font-size: 10px; font-weight: 800; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; margin-bottom: 6px; display: block; }
+    
+    select, input[type="text"] {
+      width: 100%; background: #1c1c1e; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; color: #fff; padding: 10px; font-size: 13px; font-weight: 600; outline: none;
+    }
+
+    option, optgroup { background-color: #1c1c1e; color: #ffffff; }
+
+    .eq-grid {
+      display: flex; justify-content: space-between; gap: 6px;
+      background: rgba(255, 255, 255, 0.03); padding: 20px 10px; border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .band { flex: 1; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+    .db-label { font-size: 11px; font-weight: 700; margin-bottom: 12px; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+    .slider-container {
+      width: 44px; height: 170px; background: rgba(255, 255, 255, 0.06);
+      border-radius: 22px; position: relative; overflow: hidden; margin-bottom: 12px;
+    }
+
+    input[type=range] {
+      appearance: none; width: 170px; height: 44px; background: transparent;
+      position: absolute; top: 63px; left: -63px; transform: rotate(-90deg);
+      cursor: pointer; z-index: 10; outline: none;
+    }
+
+    .visual-fill { 
+      position: absolute; bottom: 0; width: 100%; height: 50%; 
+      background: var(--accent-gradient); box-shadow: 0 0 20px rgba(0, 122, 255, 0.5);
+      transition: height 0.15s cubic-bezier(0.23, 1, 0.32, 1); 
+    }
+
+    .params { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+    .param-row { display: flex; align-items: center; justify-content: center; gap: 2px; }
+    .p-tag { font-size: 8px; font-weight: 900; color: rgba(255,255,255,0.3); }
+    .p-input { 
+      width: 38px; background: transparent; border: none; color: #fff; 
+      font-size: 10px; font-weight: 700; text-align: center; 
+    }
+
+    .apply-trigger {
+      width: 100%; margin-top: 20px; padding: 18px; border-radius: 20px;
+      background: #fff; color: #000; border: none; font-size: 16px; 
+      font-weight: 800; cursor: pointer; transition: 0.2s;
+    }
+    .apply-trigger:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
+
+    #deletePreset { background: var(--ios-red); border: none; border-radius: 10px; padding: 0 12px; color: #fff; cursor: pointer; display: none; }
+  </style>
+</head>
+<body>
+    <div class="bg-mesh"></div>
+    <header>
+      <h1>PulseEQ</h1>
+      <button class="patreon-pill" id="patreonBtn">SUPPORT ME</button>
+    </header>
+
+    <div class="control-panel">
+      <div class="control-group">
+        <label class="group-label">Resolution</label>
+        <select id="bandCount">
+          <option value="5">5 BANDS</option>
+          <option value="8">8 BANDS</option>
+          <option value="12" selected>12 BANDS</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="group-label">Sound Profile</label>
+        <div style="display:flex; gap:6px;">
+          <select id="presetList" style="flex-grow:1;">
+            <optgroup label="System" id="stdPresets">
+              <option value="flat">Flat</option>
+              <option value="bass">Bass Max</option>
+              <option value="jazz">Jazz</option>
+              <option value="pop">Pop</option>
+              <option value="rock">Rock</option>
+              <option value="electronic">Electronic</option>
+            </optgroup>
+            <optgroup label="Personal" id="custPresets"></optgroup>
+          </select>
+          <button id="deletePreset">✕</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="group-label">Capture Current</label>
+        <div style="display:flex; gap:6px;">
+          <input type="text" id="presetName" placeholder="Profile name...">
+          <button id="savePreset" style="background:var(--accent); color:#fff; border:none; border-radius:12px; padding:0 15px; font-weight:700; cursor:pointer;">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="eq-grid" id="rack"></div>
+
+    <button class="apply-trigger" id="applyBtn">PUSH ENGINE UPDATES</button>
+
+    <script src="popup.js"></script>
+</body>
+</html>
