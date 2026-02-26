@@ -59,7 +59,6 @@ Since PulseEQ is currently an independent project (saving up for that $5 Chrome 
 I am a solo developer building this project to provide a cleaner alternative to bloated ad-filled extensions. If PulseEQ improves your listening experience, consider helping me get this onto the official Web Store:
 
 * **Patreon:** [Support me on Patreon](https://patreon.com/B286B)
-* **Issues:** Found a bug? Open an [issue](https://github.com/YOUR_GITHUB_USERNAME/PulseEQ/issues).
 
 ---
 
