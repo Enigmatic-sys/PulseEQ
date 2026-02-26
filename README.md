@@ -12,7 +12,7 @@ PulseEQ is a high-performance, audio engine designed for users who crave precisi
 
 * **12-Band Precision:** Optimized UI that fits a full 12-band rack on one screen—no scrolling required.
 * **True Parametric Control:** Manually adjust **Frequency (Hz)** and **Q-Factor (Bandwidth)** for surgical audio editing.
-* **iOS-Style Glassmorphism:** A borderless, "edge-to-edge" frosted glass interface with dynamic mesh gradients.
+* **Glassmorphism:** A borderless, "edge-to-edge" frosted glass interface with dynamic mesh gradients.
 * **Intelligent Visual Feedback:** dB counters shift from **Cool Blue** to **Peak Red** as gain increases, providing a
     professional visual warning for digital clipping.
 * **Custom Preset Engine:** Bass Max, Rock, Pop, Jazz, and Electronic. You can create your own preset.
